@@ -30,22 +30,39 @@
 	  	}
 	</style>
 	<script type="text/javascript"></script>
-/* jslint settings */
-// Module /spa/
-// Provides chat slider capability
-  // Module scope variables
-    // Set constants
-    // Declare all other module scope variables
-  // DOM method /toggleSlider/
-  // alternates slider height
-  // Event handler /onClickSlider/
-  // receives click event and calls toggleSlider
-  // Public method /initModule/
-  // sets initial state and provides feature
-    // render HTML
-    // initialize slider height and title
-    // bind the user click event to the event handler
-// Start spa once DOM is ready
+	/* jslint settings */
+
+	// Module /spa/
+	// Provides chat slider capability
+	//
+	var spa = (function ( $ )  {
+		// Module scope variables
+		var
+			// Set constants
+			configMap = {}
+			// Declare all other module scope variables
+			$chatSlider,
+			toggleSlider, onClickSlider, initModule;
+		// DOM method /toggleSlider/
+		// alternates slider height
+		//
+		toggleSlider = function () {};
+
+		// Event handler /onClickSlider/
+		// receives click event and calls toggleSlider
+		//
+		onClickSlider = function ( event ) {};
+		
+		// Public method /initModule/
+		// sets initial state and provides feature
+		//
+		initModule = function ( $container ) {
+			// render HTML
+			// initialize slider height and title
+			// bind the user click event to the event handler
+		};
+	} ());
+	// Start spa once DOM is ready
 </head>
 <body>
 	<div id="spa">
