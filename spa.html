@@ -26,7 +26,7 @@
 	  		height: 16px;
 	  		cursor: pointer;
 	  		border-radius: 8px 0 0 0;
-	  		background-color: #f00;
+	  		background-color: #f70;
 	  	}
 	</style>
 
@@ -53,7 +53,7 @@
 				extended_height : 434,
 				extended_title : 'Click to retract',
 				retracted_height : 16,
-				retracted_title : 'Click to extend'
+				retracted_title : 'Click to extend',
 				template_html : '<div class="spa-slider"><\/div>'
 			},
 			
@@ -71,7 +71,7 @@
 			if ( slider_height === configMap.retracted_height ) {
 				$chatSlider
 					.animate({ height : configMap.extended_height })
-					.attr( 'title', configMap.extended_height );
+					.attr( 'title', configMap.extended_title );
 				return true;
 			}
 			// retract slider if fully extended
@@ -111,7 +111,7 @@
 		};
 		return { initModule : initModule };
 	} ( jQuery ));
- 
+
 	// Start spa once DOM is ready
 	jQuery(document).ready(
 		function () { spa.initModule( jQuery('#spa') ); }
