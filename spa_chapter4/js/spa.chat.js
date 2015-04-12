@@ -266,6 +266,36 @@ spa.chat = (function () {
   };
   // End public method /initModule/
 
+  // Begin public method /removeSlider/
+  // Purpose :
+  //   * Removes chatSlider DOM element
+  //   * Reverts to initial state
+  //   * Removes pointers to callbacks and other data
+  // Arguments : none
+  // Returns   : true
+  // Throws    : none
+  //
+  removeSlider = function () {
+    // unwind initialization and state
+    // remove DOM container; this removes event bindings too
+    if ( jqueryMap.$slider ) {
+      jqueryMap.$slider.remove();
+      jqueryMap = {};
+    }
+    stateMap.$append_target = null;
+    stateMap.position_type  = 'closed';
+    
+    // unwind key configurations
+    configMap.chat_model      = null;
+    configMap.people_model    = null;
+    configMap.set_chat_anchor = null;
+    
+    return true;
+  };
+  // End public method /removeSlider/
+
+
+
   // return public methods
   return {
     setSliderPosition : setSliderPosition,
