@@ -173,16 +173,37 @@ spa.chat = (function () {
   // End public DOM method /setSliderPosition/
   //---------------------- END DOM METHODS ---------------------
   //------------------- BEGIN EVENT HANDLERS -------------------
+  onClickToggle = function ( event ){
+  var set_chat_anchor = configMap.set_chat_anchor;
+    if ( stateMap.position_type === 'opened' ) {
+      set_chat_anchor( 'closed' );
+    }
+    else if ( stateMap.position_type === 'closed' ){
+      set_chat_anchor( 'opened' );
+    } return false;
+  };
   //-------------------- END EVENT HANDLERS --------------------
   //------------------- BEGIN PUBLIC METHODS -------------------
   // Begin public method /configModule/
-  // Purpose    : Adjust configuration of allowed keys
-  // Arguments  : A map of settable keys and values
-  //   * color_name - color to use
-  // Settings   :
-  //   * configMap.settable_map declares allowed keys
-  // Returns    : true
-  // Throws     : none
+  // Example : spa.chat.configModule({ slider_open_em : 18 }); 
+  // Purpose : Configure the module prior to initialization
+  // Arguments :
+  // * set_chat_anchor - a callback to modify the URI anchor to
+  //    indicate opened or closed state. This callback must return
+  //    false if the requested state cannot be met
+  // * chat_model - the chat model object provides methods
+  //    to interact with our instant messaging
+  // * people_model - the people model object which provides
+  //    methods to manage the list of people the model maintains
+  // * slider_* settings. All these are optional scalars.
+  //    See mapConfig.settable_map for a full list
+  //    Example: slider_open_em is the open height in em's
+  // Action:
+  //  The internal configuration data structure (configMap) is
+  //  updated with provided arguments. No other actions are taken.
+  // Returns  : true
+  // Throws   : JavaScript error object and stack trace on
+  //            unacceptable or missing arguments
   //
   configModule = function ( input_map ) {
     spa.util.setConfigMap({
@@ -197,23 +218,38 @@ spa.chat = (function () {
 
 
   // Begin public method /initModule/
-  // Purpose    : Initializes module
-  // Arguments  :
-  //  * $container the jquery element used by this feature
-  // Returns    : true
+  // Example    : spa.chat.initModule( $('#div_id') );
+  // Purpose    : Directs Chat to offer its capability to the user
+  // Arguments  : 
+  //  * $append_target (example: $('#div_id')).
+  //  A jQuery collection that should represent
+  //  a single DOM container
+  // Action     :
+  //   Appends the chat slider to the provided container and fills
+  //   it with HTML content. It then initializes elements,
+  //   events, and handlers to provide the user with a chat-room
+  //   interface
+  // Returns    : true on success, false on failure
   // Throws     : none
   //
-  initModule = function ( $container ) {
-    $container.html( configMap.main_html );
-    stateMap.$container = $container;
+  initModule = function ( $append_target ) {
+    $append_target.append( configMap.main_html );
+    stateMap.$append_target = $append_target;
     setJqueryMap();
+    setPxSizes();
+
+    // initialize chat slider to default title and state
+    jqueryMap.$toggle.prop( 'title', configMap.slider_closed_title );
+    jqueryMap.$head.click( onClickToggle );
+    stateMap.position_type = 'closed';
     return true;
   };
   // End public method /initModule/
   // return public methods
   return {
-    configModule : configModule,
-    initModule   : initModule
+    setSliderPosition : setSliderPosition,
+    configModule      : configModule,
+    initModule        : initModule
     };
     //------------------- END PUBLIC METHODS ---------------------
 }());
