@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!-- saved from url=(0054)file://localhost/Users/matt/github/mcgurks/layout.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <title>HTML Layout</title>
+    <link rel="stylesheet" href="file://localhost/Users/matt/github/mcgurks/css/spa.css" type="text/css">
+    <style>
+      .mg-shell-head, .mg-shell-head-logo, .mg-shell-head-acct,
+      .mg-shell-main, .mg-shell-main-players, .mg-shell-main-content,
+      .mg-shell-gcard1, .mg-shell-gcard2, .mg-shell-gcard3,
+      .mg-shell-pcard1, .mg-shell-pcard2, .mg-shell-pcard3,     
+      .mg-shell-foot, .mg-shell-modal {
+        position: absolute;
+      }
+      .mg-shell-head {
+        top    : 0;
+        left   : 0;
+        right  : 0;
+        height : 40px;
+      }
+      .mg-shell-head-logo {
+        top: 4px;
+        left: 4px;
+        height: 32px;
+        width: 128px;
+        background: orange;
+      }
+      .mg-shell-head-acct {
+        top: 4px;
+        right: 0px;
+        height: 32px;
+        width: 64px;
+        background: green;
+      }
+      .mg-shell-main { 
+        top : 40px; 
+        left :0; 
+        bottom : 40px; 
+        right : 0;
+      }
+      .mg-shell-main-content, 
+      .mg-shell-main-players {
+        top :0;
+        bottom : 0; 
+      }
+      .mg-shell-main-players {
+        width      : 250px;
+        background : #eee;
+      }
+      .mg-x-closed .mg-shell-main-players {
+        width         : 0;
+      }
+      .mg-shell-main-content {
+        left          : 250px;
+        right         : 0;
+        background    : #ddd;
+      }
+      .mg-x-closed .mg-shell-main-content {
+        left          : 0;
+      }
+      .mg-shell-gcard1 {
+        margin-top    : -200px;
+        margin-left   : -100px;
+        top           : 50%;
+        left          : 25%;
+        width         : 240px;
+        height        : 336px;
+        background    : #ff8;
+        border-radius : 3px;
+        z-index       : 2;
+      } 
+      .mg-shell-gcard2 {
+
+      } 
+      .mg-shell-gcard3 {
+
+      }
+      .mg-shell-pcard1 {
+
+      } 
+      .mg-shell-pcard2 {
+
+      }
+      .mg-shell-pcard3 {
+
+      }
+      .mg-shell-foot { 
+        bottom        : 0; 
+        left          : 0; 
+        right         : 0; 
+        height        : 40px;
+      }
+      .mg-shell-modal {
+        margin-top    : -200px;
+        margin-left   : -200px;
+        top           : 50%;
+        left          : 50%;
+        width         : 400px;
+        height        : 400px;
+        background    : #fff;
+        border-radius : 3px;
+        z-index       : 2;
+      } 
+    </style>
+</head><body>￼
+
+  <div id="mg">
+    <div class="mg-shell-head">
+      <div class="mg-shell-head-logo"></div>
+      <div class="mg-shell-head-acct"></div>
+    </div>
+    <div class="mg-shell-main">
+      <div class="mg-shell-main-nav"></div>
+      <div class="mg-shell-main-content"></div>
+      <div class="mg-shell-gcard1"></div>
+      <div class="mg-shell-gcard2"></div>
+      <div class="mg-shell-gcard3"></div>
+      <div class="mg-shell-pcard1"></div>
+      <div class="mg-shell-pcard3"></div>
+      <div class="mg-shell-pcard3"></div>
+    </div>
+    <div class="mg-shell-foot"></div>
+    <div class="mg-shell-modal"></div>
+  </div>
+
+</body></html>
