@@ -51,10 +51,10 @@ spa.chat = (function () {
       slider_close_time    : 250,
       slider_opened_em     : 18,
       slider_closed_em     : 2,
-      slider_opened_min_em : 10,
-      window_height_min_em : 20,
       slider_opened_title  : 'Click to close',
       slider_closed_title  : 'Click to open',
+      slider_opened_min_em : 10,
+      window_height_min_em : 20,
 
       chat_model      : null,
       people_model    : null,
@@ -110,7 +110,7 @@ spa.chat = (function () {
 
     px_per_em = getEmSize( jqueryMap.$slider.get(0) );
     window_height_em = Math.floor(
-        ( $(window).height() / px_per_em ) + 0.5
+      ( $(window).height() / px_per_em ) + 0.5
     );
 
     opened_height_em
@@ -275,13 +275,13 @@ spa.chat = (function () {
   // End public method /initModule/
 
   // Begin public method /removeSlider/
-  // Purpose :
+  // Purpose    :
   //   * Removes chatSlider DOM element
   //   * Reverts to initial state
   //   * Removes pointers to callbacks and other data
-  // Arguments : none
-  // Returns   : true
-  // Throws    : none
+  // Arguments  : none
+  // Returns    : true
+  // Throws     : none
   //
   removeSlider = function () {
     // unwind initialization and state
@@ -292,15 +292,16 @@ spa.chat = (function () {
     }
     stateMap.$append_target = null;
     stateMap.position_type  = 'closed';
-    
+
     // unwind key configurations
     configMap.chat_model      = null;
     configMap.people_model    = null;
     configMap.set_chat_anchor = null;
-    
+
     return true;
   };
   // End public method /removeSlider/
+
   // Begin public method /handleResize/
   // Purpose    :
   //   Given a window resize event, adjust the presentation

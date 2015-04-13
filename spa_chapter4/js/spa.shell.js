@@ -18,7 +18,7 @@ spa.shell = (function () {
       anchor_schema_map : {
         chat  : { opened : true, closed : true }
       },
-      resize_interval : 200,  
+      resize_interval : 200,
       main_html : String()
         + '<div class="spa-shell-head">'
           + '<div class="spa-shell-head-logo"></div>'
@@ -32,16 +32,15 @@ spa.shell = (function () {
         + '<div class="spa-shell-foot"></div>'
         + '<div class="spa-shell-modal"></div>'
     },
-
-    stateMap  = {
+    stateMap = {
       $container  : undefined,
-      anchor_map  : {} 
+      anchor_map  : {},
       resize_idto : undefined
     },
     jqueryMap = {},
 
     copyAnchorMap,    setJqueryMap,
-    changeAnchorPart, onHashchange,
+    changeAnchorPart, onHashchange, onResize,
     setChatAnchor,    initModule;
   //----------------- END MODULE SCOPE VARIABLES ---------------
 
@@ -192,19 +191,21 @@ spa.shell = (function () {
 
     return false;
   };
+  // End Event handler /onHashchange/
+
   // Begin Event handler /onResize/
   onResize = function (){
     if ( stateMap.resize_idto ){ return true; }
+
     spa.chat.handleResize();
     stateMap.resize_idto = setTimeout(
-     function (){ stateMap.resize_idto = undefined; },
-     configMap.resize_interval
+      function (){ stateMap.resize_idto = undefined; },
+      configMap.resize_interval
     );
 
     return true;
-    };
-// End Event handler /onResize/
-  // End Event handler /onHashchange/
+  };
+  // End Event handler /onResize/
   //-------------------- END EVENT HANDLERS --------------------
 
   //---------------------- BEGIN CALLBACKS ---------------------
@@ -229,19 +230,19 @@ spa.shell = (function () {
 
   //------------------- BEGIN PUBLIC METHODS -------------------
   // Begin Public method /initModule/
-  // Example  : spa.shell.initModule( $('#app_div_id') );
-  // Purpose  :
+  // Example   : spa.shell.initModule( $('#app_div_id') );
+  // Purpose   :
   //   Directs the Shell to offer its capability to the user
   // Arguments :
   //   * $container (example: $('#app_div_id')).
-  //     A jQuery collection that should represent 
+  //     A jQuery collection that should represent
   //     a single DOM container
   // Action    :
   //   Populates $container with the shell of the UI
   //   and then configures and initializes feature modules.
   //   The Shell is also responsible for browser-wide issues
-  //   such as URI anchor and cookie management.
-  // Returns   : none 
+  //   such as URI anchor and cookie management
+  // Returns   : none
   // Throws    : none
   //
   initModule = function ( $container ) {
@@ -270,9 +271,9 @@ spa.shell = (function () {
     // is considered on-load
     //
     $(window)
+      .bind( 'resize',     onResize )
       .bind( 'hashchange', onHashchange )
       .trigger( 'hashchange' );
-
   };
   // End PUBLIC method /initModule/
 
