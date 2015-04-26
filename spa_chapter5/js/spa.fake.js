@@ -66,7 +66,7 @@ spa.fake = (function () {
                 css_map : data.css_map
             }]
           );
-        }, 10000 );
+        }, 3000 );
       }
     };
 
