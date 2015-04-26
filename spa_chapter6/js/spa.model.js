@@ -98,8 +98,6 @@ spa.model = (function () {
     stateMap.user.css_map = user_map.css_map;
     stateMap.people_cid_map[ user_map._id ] = stateMap.user;
     chat.join();
-
-    // When we add chat, we should join here
     $.gevent.publish( 'spa-login', [ stateMap.user ] );
   };
 
@@ -172,7 +170,6 @@ spa.model = (function () {
 
     logout = function () {
       var is_removed, user = stateMap.user;
-      // when we add chat, we should leave the chatroom here
 
       chat._leave();
       is_removed    = removePerson( user );
@@ -243,12 +240,12 @@ spa.model = (function () {
   //
   chat = (function () {
     var
-      _publish_listchange,
+      _publish_listchange, _publish_updatechat,
       _update_list, _leave_chat,
 
       get_chatee, join_chat, send_msg, set_chatee,
-      chatee = null;
 
+      chatee = null;
 
     // Begin internal methods
     _update_list = function( arg_list ) {
@@ -280,11 +277,11 @@ spa.model = (function () {
         if ( chatee && chatee.id === make_person_map.id ) {
           is_chatee_online = true;
         }
-
         makePerson( make_person_map );
       }
 
       stateMap.people_db.sort( 'name' );
+
       // If chatee is no longer online, we unset the chatee
       // which triggers the 'spa-setchatee' global event
       if ( chatee && ! is_chatee_online ) { set_chatee(''); }
@@ -294,10 +291,9 @@ spa.model = (function () {
       _update_list( arg_list );
       $.gevent.publish( 'spa-listchange', [ arg_list ] );
     };
-    // End internal methods
 
     _publish_updatechat = function ( arg_list ) {
-      var msg_map = arg_list [ 0 ];
+      var msg_map = arg_list[ 0 ];
 
       if ( ! chatee ) { set_chatee( msg_map.sender_id ); }
       else if ( msg_map.sender_id !== stateMap.user.id
@@ -308,10 +304,11 @@ spa.model = (function () {
     };
     _leave_chat = function () {
       var sio = isFakeData ? spa.fake.mockSio : spa.data.getSio();
-      chatee = null;
+      chatee  = null;
       stateMap.is_connected = false;
       if ( sio ) { sio.emit( 'leavechat' ); }
     };
+    // End internal methods
 
     get_chatee = function () { return chatee; };
 
@@ -331,12 +328,13 @@ spa.model = (function () {
       stateMap.is_connected = true;
       return true;
     };
+
     send_msg = function ( msg_text ) {
       var msg_map,
         sio = isFakeData ? spa.fake.mockSio : spa.data.getSio();
 
       if ( ! sio ) { return false; }
-      if ( ! (stateMap.user && chatee ) ) { return false; }
+      if ( ! ( stateMap.user && chatee ) ) { return false; }
 
       msg_map = {
         dest_id   : chatee.id,
@@ -344,6 +342,7 @@ spa.model = (function () {
         sender_id : stateMap.user.id,
         msg_text  : msg_text
       };
+
       // we published updatechat so we can show our outgoing messages
       _publish_updatechat( [ msg_map ] );
       sio.emit( 'updatechat', msg_map );
@@ -352,9 +351,9 @@ spa.model = (function () {
 
     set_chatee = function ( person_id ) {
       var new_chatee;
-      new_chatee = stateMap.people_cid_map[ person_id ];
+      new_chatee  = stateMap.people_cid_map[ person_id ];
       if ( new_chatee ) {
-        if ( chatee && chatee_id === new_chatee.id ) {
+        if ( chatee && chatee.id === new_chatee.id ) {
           return false;
         }
       }
@@ -374,7 +373,7 @@ spa.model = (function () {
       get_chatee    : get_chatee,
       join          : join_chat,
       send_msg      : send_msg,
-      set_chatee    : set_chatee,
+      set_chatee    : set_chatee
     };
   }());
 
