@@ -37,18 +37,20 @@ spa.model = (function () {
   //     If the current user is not signed-in, an anonymous person
   //     object is returned.
   //   * get_db() - return the TaffyDB database of all the person
-  //     objects - including the current user - pre-sorted.
+  //     objects - including the current user - presorted.
   //   * get_by_cid( <client_id> ) - return a person object with
   //     provided unique id.
   //   * login( <user_name> ) - login as the user with the provided
   //     user name. The current user object is changed to reflect
-  //     the new identity.
+  //     the new identity. Successful completion of login
+  //     publishes a 'spa-login' global custom event.
   //   * logout()- revert the current user object to anonymous.
+  //     This method publishes a 'spa-logout' global custom event.
   //
   // jQuery global custom events published by the object include:
-  //   * 'spa-login' is published when a user login process
+  //   * spa-login - This is published when a user login process
   //     completes. The updated user object is provided as data.
-  //   * 'spa-logout' is published when a logout completes.
+  //   * spa-logout - This is published when a logout completes.
   //     The former user object is provided as data.
   //
   // Each person is represented by a person object.
