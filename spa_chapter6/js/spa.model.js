@@ -38,18 +38,20 @@ spa.model = (function () {
   //     If the current user is not signed-in, an anonymous person
   //     object is returned.
   //   * get_db() - return the TaffyDB database of all the person
-  //     objects - including the current user - pre-sorted.
+  //     objects - including the current user - presorted.
   //   * get_by_cid( <client_id> ) - return a person object with
   //     provided unique id.
   //   * login( <user_name> ) - login as the user with the provided
   //     user name. The current user object is changed to reflect
-  //     the new identity.
+  //     the new identity. Successful completion of login
+  //     publishes a 'spa-login' global custom event.
   //   * logout()- revert the current user object to anonymous.
+  //     This method publishes a 'spa-logout' global custom event.
   //
   // jQuery global custom events published by the object include:
-  //   * 'spa-login' is published when a user login process
+  //   * spa-login - This is published when a user login process
   //     completes. The updated user object is provided as data.
-  //   * 'spa-logout' is published when a logout completes.
+  //   * spa-logout - This is published when a logout completes.
   //     The former user object is provided as data.
   //
   // Each person is represented by a person object.
@@ -172,12 +174,10 @@ spa.model = (function () {
       var user = stateMap.user;
 
       chat._leave();
-      is_removed    = removePerson( user );
       stateMap.user = stateMap.anon_user;
       clearPeopleDb();
 
       $.gevent.publish( 'spa-logout', [ user ] );
-      return is_removed;
     };
 
     return {
@@ -200,7 +200,7 @@ spa.model = (function () {
   //    custom events. If the current user is anonymous,
   //    join() aborts and returns false.
   //  * get_chatee() - return the person object with whom the user
-  //    is chatting. If there is no chatee, null is returned.
+  //    is chatting with. If there is no chatee, null is returned.
   //  * set_chatee( <person_id> ) - set the chatee to the person
   //    identified by person_id. If the person_id does not exist
   //    in the people list, the chatee is set to null. If the
@@ -220,9 +220,9 @@ spa.model = (function () {
   // jQuery global custom events published by the object include:
   //  * spa-setchatee - This is published when a new chatee is
   //    set. A map of the form:
-  //    { old_chatee : <old_chatee_person_object>,
-  //      new_chatee : <new_chatee_person_object>
-  //    }
+  //      { old_chatee : <old_chatee_person_object>,
+  //        new_chatee : <new_chatee_person_object>
+  //      }
   //    is provided as data.
   //  * spa-listchange - This is published when the list of
   //    online people changes in length (i.e. when a person
@@ -275,14 +275,12 @@ spa.model = (function () {
           id      : person_map._id,
           name    : person_map.name
         };
-
         person = makePerson( make_person_map );
 
         if ( chatee && chatee.id === make_person_map.id ) {
           is_chatee_online = true;
           chatee = person;
         }
-        makePerson( make_person_map );
       }
 
       stateMap.people_db.sort( 'name' );
@@ -307,13 +305,14 @@ spa.model = (function () {
 
       $.gevent.publish( 'spa-updatechat', [ msg_map ] );
     };
+    // End internal methods
+
     _leave_chat = function () {
       var sio = isFakeData ? spa.fake.mockSio : spa.data.getSio();
       chatee  = null;
       stateMap.is_connected = false;
       if ( sio ) { sio.emit( 'leavechat' ); }
     };
-    // End internal methods
 
     get_chatee = function () { return chatee; };
 
