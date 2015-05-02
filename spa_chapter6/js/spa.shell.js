@@ -27,7 +27,6 @@ spa.shell = (function () {
             + '<p>javascript end to end</p>'
           + '</div>'
           + '<div class="spa-shell-head-acct"></div>'
-          + '<div class="spa-shell-head-search"></div>'
         + '</div>'
         + '<div class="spa-shell-main">'
           + '<div class="spa-shell-main-nav"></div>'
@@ -45,8 +44,8 @@ spa.shell = (function () {
 
     copyAnchorMap,    setJqueryMap,   changeAnchorPart,
     onResize,         onHashchange,
-      onTapAcct,        onLogin,        onLogout,
-      setChatAnchor,    initModule;
+    onTapAcct,        onLogin,        onLogout,
+    setChatAnchor,    initModule;
   //----------------- END MODULE SCOPE VARIABLES ---------------
 
   //------------------- BEGIN UTILITY METHODS ------------------
@@ -60,6 +59,7 @@ spa.shell = (function () {
   // Begin DOM method /setJqueryMap/
   setJqueryMap = function () {
     var $container = stateMap.$container;
+
     jqueryMap = {
       $container : $container,
       $acct      : $container.find('.spa-shell-head-acct'),
@@ -186,8 +186,8 @@ spa.shell = (function () {
     // End adjust chat component if changed
 
     // Begin revert anchor if slider change denied
-    if ( ! is_ok ){
-      if ( anchor_map_previous ){
+    if ( ! is_ok ) {
+      if ( anchor_map_previous ) {
         $.uriAnchor.setAnchor( anchor_map_previous, null, true );
         stateMap.anchor_map = anchor_map_previous;
       }
@@ -203,12 +203,12 @@ spa.shell = (function () {
   // End Event handler /onHashchange/
 
   // Begin Event handler /onResize/
-  onResize = function (){
-    if ( stateMap.resize_idto ){ return true; }
+  onResize = function () {
+    if ( stateMap.resize_idto ) { return true; }
 
     spa.chat.handleResize();
     stateMap.resize_idto = setTimeout(
-      function (){ stateMap.resize_idto = undefined; },
+      function () { stateMap.resize_idto = undefined; },
       configMap.resize_interval
     );
 
@@ -216,7 +216,6 @@ spa.shell = (function () {
   };
   // End Event handler /onResize/
 
-  // Begin Event handler /onTapAcct/
   onTapAcct = function ( event ) {
     var acct_text, user_name, user = spa.model.people.get_user();
     if ( user.get_is_anon() ) {
@@ -225,11 +224,11 @@ spa.shell = (function () {
       jqueryMap.$acct.text( '... processing ...' );
     }
     else {
-        spa.model.people.logout();
+     spa.model.people.logout();
     }
     return false;
   };
-  // End Event handler /onTapAcct/
+
   onLogin = function ( event, login_user ) {
     jqueryMap.$acct.text( login_user.name );
   };
@@ -237,7 +236,6 @@ spa.shell = (function () {
   onLogout = function ( event, logout_user ) {
     jqueryMap.$acct.text( 'Please sign-in' );
   };
-
   //-------------------- END EVENT HANDLERS --------------------
 
   //---------------------- BEGIN CALLBACKS ---------------------
@@ -254,7 +252,7 @@ spa.shell = (function () {
   //   * false - requested anchor part was not updated
   // Throws   : none
   //
-  setChatAnchor = function ( position_type ){
+  setChatAnchor = function ( position_type ) {
     return changeAnchorPart({ chat : position_type });
   };
   // End callback method /setChatAnchor/
@@ -306,7 +304,8 @@ spa.shell = (function () {
       .bind( 'resize',     onResize )
       .bind( 'hashchange', onHashchange )
       .trigger( 'hashchange' );
-    $.gevent.subscribe( $container, 'spa-login', onLogin );
+
+    $.gevent.subscribe( $container, 'spa-login',  onLogin  );
     $.gevent.subscribe( $container, 'spa-logout', onLogout );
 
     jqueryMap.$acct
