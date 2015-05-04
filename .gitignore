@@ -15,4 +15,6 @@ spa_chapter6/js/spa.fake_master.js
 
 book/misc_strings
 
-webapp/node_modules
+webapp_chapter7/node_modules
+
+spa_chapter8/node_modules
