@@ -13,8 +13,8 @@
 // ------------ BEGIN MODULE SCOPE VARIABLES --------------
 'use strict';
 var
-  http    = require( 'http'     ),
-  express = require( 'express'  ),
+  http    = require( 'http'         ),
+  express = require( 'express'      ),
   routes  = require( './lib/routes' ),
 
   app     = express(),
